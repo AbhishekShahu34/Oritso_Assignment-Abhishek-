@@ -5,7 +5,7 @@ This project is a Task Management Web Application developed as part of an interv
 It allows users to create, update, view, filter, and deactivate tasks.
 
 The application is built using **ASP.NET Core MVC (.NET 8)** with **SQL Server** as the database.
-All database operations are performed using **Dapper** and **System.Data.SqlClient** with
+All database operations are performed using **Dapper ORM** and **System.Data.SqlClient** with
 stored procedures (DB First approach).
 
 ---
