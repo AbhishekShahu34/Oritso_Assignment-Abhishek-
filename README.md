@@ -2,7 +2,7 @@
 
 ## Overview
 This project is a Task Management Web Application developed as part of an interview assignment.
-It allows users to create, update, view, filter, and deactivate tasks.
+It allows users to create, update, view, filter, and delete tasks.
 
 The application is built using **ASP.NET Core MVC (.NET 8)** with **SQL Server** as the database.
 All database operations are performed using **Dapper ORM** and **System.Data.SqlClient** with
@@ -14,7 +14,8 @@ stored procedures (DB First approach).
 
 ### ER Diagram (Logical View)
 
-Single core entity is used:
+This application uses a single entity to keep the design simple and focused
+for task lifecycle management.
 
 
 Soft delete is implemented using the `IsActive` flag.
@@ -50,6 +51,8 @@ Soft delete is implemented using the `IsActive` flag.
 | PK_Task   | Clustered Primary Key | Id | Fast lookup and uniqueness |
 
 ---
+The primary key index is sufficient for the current scope.
+Filtering and searching are handled through stored procedures.
 
 ### Database Approach
 
