@@ -1,0 +1,86 @@
+﻿@model Oritso_Assignment_Abhishek_.Models.Tasks
+
+@{
+    var isEdit = !string.IsNullOrEmpty(Model?.Id);
+
+    string _heading = "Add Task";
+    ViewData["Title"] = _heading;
+}
+<form id="taskForm" method="post" asp-action="@(isEdit ? "UpdateTask" : "CreateTask")">
+    <div class="card">
+        <div class="card-header rounded-top-4 d-flex justify-content-between">
+            <h4 class="mb-0">
+                @(isEdit ? "Update Task" : _heading)
+            </h4>
+            <div class="">
+                @if(isEdit)
+                {
+                    <a href="/Home/CreateTask" class="btn btn-primary">
+                        @_heading
+                    </a>
+                }
+                <a asp-action="Index" class="btn btn-secondary px-4">Back</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label class="col-md-5 col-form-label">Task Title</label>
+                        <div class="col-md-7">
+                            <input asp-for="Title" class="form-control" placeholder="Enter task title" required />
+                        </div>
+                        
+                    </div>
+                </div>
+                    
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label class="col-form-label col-md-5">Due Date</label>
+                        <div class="col-md-7">
+                            <input asp-for="DueDate" type="date" class="form-control" required />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label class="col-form-label col-md-5">Status</label>
+                        <div class="col-md-7">
+                            <select asp-for="Status" class="form-select" required>
+                                <option value="">-- Select Status --</option>
+                                <option value="Pending" selected="@(Model?.Status == "Pending" ? "selected" : null)">Pending</option>
+                                <option value="Completed" selected="@(Model?.Status == "Completed" ? "selected" : null)">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label class="col-form-label col-md-5">Description</label>
+                        <div class="col-md-7">
+                            <textarea asp-for="Description" class="form-control" placeholder="Enter task description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label class="col-form-label col-md-5">Remarks</label>
+                        <div class="col-md-7">
+                            <input asp-for="Remarks" class="form-control" placeholder="Optional remarks" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="text-center">
+                <button type="submit" class="btn btn-success px-3">
+                    @(isEdit ? "Update" : "Submit")
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

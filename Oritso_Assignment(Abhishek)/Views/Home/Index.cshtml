@@ -1,0 +1,133 @@
+﻿@model List<Tasks>
+
+@{
+    string _heading = "Task List";
+    ViewData["Title"] = _heading;
+}
+@* Optional success/error messages *@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successAlert" class="alert alert-success mt-3">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorAlert" class="alert alert-danger mt-3">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title d-flex justify-content-between">
+            <h5 class="mb-3">@_heading</h5>
+            <a href="/Home/CreateTask" class="btn btn-primary">
+                Add Task
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <form method="Index" class="mb-3">
+            <div class="row g-2">
+                <div class="col-md-2">
+                    <input type="text" name="title" class="form-control"
+                           placeholder="Search Title"
+                           value="@Context.Request.Query["title"]" />
+                </div>
+
+                <div class="col-md-2">
+                    <input type="text" name="status" class="form-control"
+                           placeholder="Status"
+                           value="@Context.Request.Query["status"]" />
+                </div>
+
+                <div class="col-md-2">
+                    <input type="text" name="createdByName" class="form-control"
+                           placeholder="Created By"
+                           value="@Context.Request.Query["createdByName"]" />
+                </div>
+
+                <div class="col-md-2">
+                    <input type="date" name="fromDate" class="form-control"
+                           value="@Context.Request.Query["fromDate"]" />
+                </div>
+
+                <div class="col-md-2">
+                    <input type="date" name="toDate" class="form-control"
+                           value="@Context.Request.Query["toDate"]" />
+                </div>
+
+                <div class="col-md-2 text-center">
+                    <button type="submit" class="btn btn-success">
+                        Search
+                    </button>
+                    <a href="/Home/Index" class="btn btn-secondary ms-2">
+                        Reset
+                    </a>
+
+                </div>
+            </div>
+        </form>
+
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>SNo</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Due Date</th>
+                    <th>Created By</th>
+                    <th>Created On</th>
+                    <th>Remarks</th>
+                    <th style="width:140px;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    int i = 1;
+                    foreach (var task in Model)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@task.Title</td>
+                            <td>
+                                <span>
+                                    @task.Status
+                                </span>
+                            </td>
+                            <td>@task.DueDate?.ToString("dd-MM-yyyy")</td>
+                            <td>@task.CreatedByName</td>
+                            <td>@task.CreatedOn?.ToString("dd-MM-yyyy")</td>
+                            <td>@task.Remarks</td>
+                            <td>
+                                <a href="/Home/GetTaskById/@task.Id"
+                                   class="btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                </a>
+
+                                <a href="/Home/DeleteTask/@task.Id"
+                                   class="btn"
+                                   onclick="return confirm('Are you sure you want to delete this task?');">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                </a>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">
+                            No records found
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
